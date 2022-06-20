@@ -8,3 +8,10 @@ class EditTextHints {
         const val PASSWORD_AGAIN = "Повторите пароль"
     }
 }
+
+class SelectorTexts {
+    companion object {
+        const val SIGN_ON = "Регистрация"
+        const val SIGN_IN = "Вход"
+    }
+}

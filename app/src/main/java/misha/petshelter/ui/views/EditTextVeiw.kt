@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -34,6 +36,8 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
     val message = remember {mutableStateOf("")}
 
     val transformation = remember{mutableStateOf(PasswordVisualTransformation() as VisualTransformation)}
+
+    val keyboardFocus = LocalFocusManager.current
 
     TextField(
         value = message.value,
@@ -58,7 +62,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
                 style = TextStyle(
                     color = HintColor,
                     fontSize = EDIT_TEXT_SIZE.sp,
-                    fontFamily = Mulish
+                    fontFamily = Mulish,
                 ),
             )
         },
@@ -109,7 +113,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
         keyboardActions = KeyboardActions(
             onAny = {
-
+                keyboardFocus.clearFocus()
             }
         ),
     )
