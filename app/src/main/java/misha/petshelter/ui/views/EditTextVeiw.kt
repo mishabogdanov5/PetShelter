@@ -1,17 +1,14 @@
 package misha.petshelter.ui.views
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,11 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.R
@@ -37,11 +33,15 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
     val message = remember {mutableStateOf("")}
 
+    val transformation = remember{mutableStateOf(PasswordVisualTransformation() as VisualTransformation)}
+
     TextField(
         value = message.value,
-        onValueChange = { text -> message.value = text },
+        onValueChange = { message.value = it },
 
         shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp),
+
+        singleLine = hasImages,
 
         modifier = Modifier
             .padding(18.dp)
@@ -80,23 +80,27 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             val resState = remember{mutableStateOf(R.drawable.ic_visibility_off)}
 
             if(hasImages){
-                IconButton(onClick = {
-
-                    if(resState.value == R.drawable.ic_visibility_off)
-                        resState.value = R.drawable.ic_visibility_on
-                    else resState.value = R.drawable.ic_visibility_off
-
-                } ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id =
                         resState.value),
                         contentDescription = "visibility_on",
-                        tint = PrimaryColor
+                        tint = PrimaryColor,
+
+                        modifier = Modifier.clickable {
+
+                            if(resState.value == R.drawable.ic_visibility_off){
+                                resState.value = R.drawable.ic_visibility_on
+                                transformation.value = VisualTransformation.None
+                            } else {
+                                resState.value = R.drawable.ic_visibility_off
+                                transformation.value = PasswordVisualTransformation()
+                            }
+                        }
                     )
                 }
-            }
+            },
 
-        },
+        visualTransformation = if(hasImages) transformation.value else VisualTransformation.None,
 
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
@@ -109,4 +113,4 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             }
         ),
     )
-} // что то по типу нужного textfield!
+} // что то по типу нужного!
