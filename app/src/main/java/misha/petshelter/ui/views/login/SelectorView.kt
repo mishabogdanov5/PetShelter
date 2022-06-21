@@ -1,12 +1,14 @@
-package misha.petshelter.ui.views
+package misha.petshelter.ui.views.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -31,7 +33,7 @@ fun SelectorView() {
     ) {
 
         Column(modifier = Modifier
-            .fillMaxWidth(0.5f)
+            .weight(1f, true)
             .clickable {
                 isActive.value = true
             }
@@ -46,17 +48,18 @@ fun SelectorView() {
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.background(color = Color.Transparent)
+                    .align(CenterHorizontally)
+                    .padding(bottom = 20.dp)
             )
 
-            Spacer(
-                modifier = Modifier
-                    .background(color = PrimaryColor)
-                    .height(if (isActive.value) SELECTOR_ACTIVE_SPACER_HEIGHT.dp else SELECTOR_INACTIVE_SPACER_HEIGHT.dp)
+            Divider(color = PrimaryColor,
+            thickness = if (isActive.value) SELECTOR_ACTIVE_SPACER_HEIGHT.dp
+            else SELECTOR_INACTIVE_SPACER_HEIGHT.dp
             )
         }
 
         Column(modifier = Modifier
-            .fillMaxWidth(0.5f)
+            .weight(1f, true)
             .clickable {
                 isActive.value = false
             }
@@ -72,14 +75,14 @@ fun SelectorView() {
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.background(color = Color.Transparent)
+                    .align(CenterHorizontally)
+                    .padding(bottom = 20.dp)
             )
 
-            Spacer(
-                modifier = Modifier
-                    .background(color = PrimaryColor)
-                    .height(if (!isActive.value) SELECTOR_ACTIVE_SPACER_HEIGHT.dp else SELECTOR_INACTIVE_SPACER_HEIGHT.dp)
+            Divider(color = PrimaryColor,
+                thickness = if (!isActive.value) SELECTOR_ACTIVE_SPACER_HEIGHT.dp
+                else SELECTOR_INACTIVE_SPACER_HEIGHT.dp
             )
-
         }
     }
 

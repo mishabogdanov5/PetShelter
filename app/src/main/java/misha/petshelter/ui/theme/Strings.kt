@@ -15,3 +15,12 @@ class SelectorTexts {
         const val SIGN_IN = "Вход"
     }
 }
+
+class LoginButtonsTexts {
+    companion object {
+        const val SIGN_ON = "Зарегистрироваться"
+        const val SIGN_IN = "Войти"
+        const val SIGN_LATE = "Войти позже"
+        const val FORGOT_PASSWORD = "Забыли пароль?"
+    }
+}

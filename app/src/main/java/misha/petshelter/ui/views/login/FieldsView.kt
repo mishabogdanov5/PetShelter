@@ -1,11 +1,9 @@
-package misha.petshelter.ui.views
+package misha.petshelter.ui.views.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import misha.petshelter.ui.theme.EditTextHints
-import misha.petshelter.ui.theme.FIRST_EDIT_TEXT_OFFSET
-import misha.petshelter.ui.theme.OFFSET_BETWEEN_EDIT_TEXTS
+import misha.petshelter.ui.theme.*
 
 @Composable
 fun FieldsSignOnView() {
@@ -40,6 +38,11 @@ fun FieldsSignOnView() {
         topOffset = FIRST_EDIT_TEXT_OFFSET + 3* OFFSET_BETWEEN_EDIT_TEXTS,
     )
 
+    LoginButtonView(text = LoginButtonsTexts.SIGN_ON,
+        paddingStart = LOGIN_BUTTON_PADDING_START_SIGN_ON,
+        paddingEnd = LOGIN_BUTTON_PADDING_END_SIGN_ON)
+
+    LoginLateButtonView()
 }
 
 @Composable
@@ -59,4 +62,12 @@ fun FieldsSignInView() {
         imeAction = ImeAction.Done,
         topOffset = FIRST_EDIT_TEXT_OFFSET + OFFSET_BETWEEN_EDIT_TEXTS,
     )
+
+    LoginButtonView(text = LoginButtonsTexts.SIGN_IN,
+        paddingStart = LOGIN_BUTTON_PADDING_START_SIGN_IN,
+        paddingEnd = LOGIN_BUTTON_PADDING_END_SIGN_IN)
+
+    ForgotPasswordButtonView()
+
+    LoginLateButtonView()
 }

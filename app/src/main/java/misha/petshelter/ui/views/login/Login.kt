@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import misha.petshelter.ui.views.AppLogoView
-import misha.petshelter.ui.views.SelectorView
 
 @Composable
 fun LoginView(){
@@ -17,6 +16,7 @@ fun LoginView(){
         .background(Color.White)) {
             AppLogoView()
             SelectorView()
+
     }
 }
 
