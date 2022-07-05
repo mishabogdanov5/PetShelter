@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,11 +22,29 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.R
+import misha.petshelter.domain.RegisterValidation
 import misha.petshelter.ui.theme.*
 
 @Composable
-fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float) {
-    Button(onClick = { /*TODO*/ },
+fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
+                     passwordAgainState: MutableState<String> = mutableStateOf(""),
+                     passwordState: MutableState<String> = mutableStateOf(""),
+                     passwordAgainBorderSize: MutableState<Float> = mutableStateOf(0f),
+                     passwordAgainBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                     passwordAgainExceptionText: MutableState<String> = mutableStateOf(""))
+{
+    Button( onClick = {
+            if(RegisterValidation().isPasswordAgainValid(passwordAgainState.value, passwordState.value)) {
+                passwordAgainBorderSize.value = 0f
+                passwordAgainBorderColor.value = Color.Transparent
+                passwordAgainExceptionText.value = ""
+            } else {
+                passwordAgainBorderSize.value = EXCEPTION_BORDER_SIZE
+                passwordAgainBorderColor.value = LoginExceptionColor
+                passwordAgainExceptionText.value = RegisterExceptions.PASSWORD_AGAIN_EXCEPTION
+            }
+       },
+
         shape = RoundedCornerShape(LOGIN_BUTTON_SHAPE.dp),
         modifier = Modifier
             .padding(

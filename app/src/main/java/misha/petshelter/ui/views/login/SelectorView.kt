@@ -17,9 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.ui.theme.*
+import misha.petshelter.view_models.LoginViewModel
+import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
-fun SelectorView() {
+fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel) {
     val isActive = remember { mutableStateOf(true) }
 
     Row(
@@ -86,8 +88,8 @@ fun SelectorView() {
         }
     }
 
-    if (isActive.value) FieldsSignInView()
-    else FieldsSignOnView()
+    if (isActive.value) FieldsSignInView(viewModel)
+    else FieldsSignOnView(registerViewModel)
 
 }
 

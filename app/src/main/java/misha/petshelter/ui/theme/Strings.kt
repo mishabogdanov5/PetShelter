@@ -24,3 +24,17 @@ class LoginButtonsTexts {
         const val FORGOT_PASSWORD = "Забыли пароль?"
     }
 }
+
+class LoginExceptions {
+     companion object {
+         const val EMAIL_EXCEPTION = "Неверный формат email. Пример: name@gmail.com"
+         const val PASSWORD_EXCEPTION = "Поле не должно быть пустым!"
+     }
+}
+
+class RegisterExceptions {
+    companion object {
+        const val NAME_EXCEPTION = "Поле не должно быть пустым!"
+        const val PASSWORD_AGAIN_EXCEPTION = "Не совпадает с введенным паролем!"
+    }
+}

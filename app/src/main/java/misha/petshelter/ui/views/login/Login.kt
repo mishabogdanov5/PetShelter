@@ -6,23 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import misha.petshelter.ui.views.AppLogoView
+import misha.petshelter.view_models.LoginViewModel
+import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
-fun LoginView(){
+fun LoginView(loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel) {
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)) {
             AppLogoView()
-            SelectorView()
-
+            SelectorView(loginViewModel, registerViewModel)
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun LoginViewPreview(){
-    LoginView()
 }
