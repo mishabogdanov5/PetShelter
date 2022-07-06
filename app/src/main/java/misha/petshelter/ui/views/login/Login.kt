@@ -11,12 +11,12 @@ import misha.petshelter.view_models.LoginViewModel
 import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
-fun LoginView(loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel) {
+fun LoginView(loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel, result: String) {
 
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)) {
             AppLogoView()
-            SelectorView(loginViewModel, registerViewModel)
+            SelectorView(loginViewModel, registerViewModel, result)
     }
 }

@@ -19,7 +19,13 @@ class MainActivity : AppCompatActivity() {
             val loginViewModel = hiltViewModel<LoginViewModel>()
             val registerViewModel = hiltViewModel<RegisterViewModel>()
 
-            LoginView(loginViewModel, registerViewModel)
+            var res = ""
+
+            loginViewModel.getTestResult().observe(this, {result ->
+                res = result.message
+            })
+
+            LoginView(loginViewModel, registerViewModel, res)
         }
 
     }

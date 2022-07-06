@@ -78,7 +78,7 @@ fun FieldsSignOnView(viewModel: RegisterViewModel) {
 }
 
 @Composable
-fun FieldsSignInView(viewModel: LoginViewModel) {
+fun FieldsSignInView(viewModel: LoginViewModel, result: String) {
 
     val emailState = viewModel.email.observeAsState() as MutableState<String>
     val passwordState = viewModel.password.observeAsState() as MutableState<String>
@@ -103,7 +103,7 @@ fun FieldsSignInView(viewModel: LoginViewModel) {
     )
 
 
-    LoginButtonView ( text = LoginButtonsTexts.SIGN_IN,
+    LoginButtonView ( text = result,
         paddingStart = LOGIN_BUTTON_PADDING_START_SIGN_IN,
         paddingEnd = LOGIN_BUTTON_PADDING_END_SIGN_IN)
 
