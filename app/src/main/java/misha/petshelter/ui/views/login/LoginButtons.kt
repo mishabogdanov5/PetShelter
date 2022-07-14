@@ -21,9 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import misha.petshelter.R
-import misha.petshelter.domain.RegisterValidation
 import misha.petshelter.ui.theme.*
+import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
 fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
@@ -31,18 +32,24 @@ fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
                      passwordState: MutableState<String> = mutableStateOf(""),
                      passwordAgainBorderSize: MutableState<Float> = mutableStateOf(0f),
                      passwordAgainBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
-                     passwordAgainExceptionText: MutableState<String> = mutableStateOf(""))
+                     passwordAgainExceptionText: MutableState<String> = mutableStateOf(""),
+                     viewModel: ViewModel? = null)
 {
     Button( onClick = {
-            if(RegisterValidation().isPasswordAgainValid(passwordAgainState.value, passwordState.value)) {
+        if(viewModel != null) {
+            val model = viewModel as RegisterViewModel
+
+            if(model.isPasswordAgainValid(passwordAgainState.value, passwordState.value)) {
                 passwordAgainBorderSize.value = 0f
                 passwordAgainBorderColor.value = Color.Transparent
                 passwordAgainExceptionText.value = ""
             } else {
                 passwordAgainBorderSize.value = EXCEPTION_BORDER_SIZE
                 passwordAgainBorderColor.value = LoginExceptionColor
-                passwordAgainExceptionText.value = RegisterExceptions.PASSWORD_AGAIN_EXCEPTION
+                passwordAgainExceptionText.value = PASSWORD_AGAIN_EXCEPTION
             }
+        }
+
        },
 
         shape = RoundedCornerShape(LOGIN_BUTTON_SHAPE.dp),
@@ -98,7 +105,7 @@ fun LoginLateButtonView() {
         }
     ) {
         Text(
-            text = LoginButtonsTexts.SIGN_LATE,
+            text = SIGN_LATE,
             style = TextStyle(
                 color = BlackTextColor,
                 fontSize = LOGIN_LATE_BUTTON_TEXT_SIZE.sp,
@@ -131,7 +138,7 @@ fun ForgotPasswordButtonView() {
 
     val decoration = remember { mutableStateOf(TextDecoration.None) }
 
-    Text(text = LoginButtonsTexts.FORGOT_PASSWORD,
+    Text(text = FORGOT_PASSWORD,
         style = TextStyle (
             color = BlackTextColor,
             fontSize = FORGOT_PASSWORD_BUTTON_TEXT_SIZE.sp,

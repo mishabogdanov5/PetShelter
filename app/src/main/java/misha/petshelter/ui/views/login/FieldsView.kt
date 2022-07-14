@@ -24,36 +24,39 @@ fun FieldsSignOnView(viewModel: RegisterViewModel) {
 
     EditTextView (
         keyboardType = KeyboardType.Text,
-        text = EditTextHints.NAME,
+        text = NAME,
         hasImages = false,
         imeAction = ImeAction.Next,
         topOffset = FIRST_EDIT_TEXT_OFFSET,
         message = nameState,
-        isLogin = false
+        isLogin = false,
+        viewModel = viewModel
     )
 
     EditTextView (
         keyboardType = KeyboardType.Email,
-        text = EditTextHints.EMAIL,
+        text = EMAIL,
         hasImages = false,
         imeAction = ImeAction.Next,
         topOffset = FIRST_EDIT_TEXT_OFFSET + OFFSET_BETWEEN_EDIT_TEXTS,
         message = emailState,
-        isLogin = false
+        isLogin = false,
+        viewModel = viewModel
     )
 
     EditTextView (
         keyboardType = KeyboardType.Password,
-        text = EditTextHints.PASSWORD,
+        text = PASSWORD,
         hasImages = true,
         imeAction = ImeAction.Next,
         topOffset = FIRST_EDIT_TEXT_OFFSET + 2* OFFSET_BETWEEN_EDIT_TEXTS,
         message = passwordState,
-        isLogin = false
+        isLogin = false,
+        viewModel = viewModel
     )
     EditTextView (
         keyboardType = KeyboardType.Password,
-        text = EditTextHints.PASSWORD_AGAIN,
+        text = PASSWORD_AGAIN,
         hasImages = true,
         imeAction = ImeAction.Done,
         topOffset = FIRST_EDIT_TEXT_OFFSET + 3* OFFSET_BETWEEN_EDIT_TEXTS,
@@ -61,17 +64,19 @@ fun FieldsSignOnView(viewModel: RegisterViewModel) {
         isLogin = false,
         passwordAgainBorderSize = passwordAgainBorderSize,
         passwordAgainBorderColor = passwordAgainBorderColor,
-        passwordAgainExceptionText = passwordAgainExceptionText
+        passwordAgainExceptionText = passwordAgainExceptionText,
+        viewModel = viewModel
     )
 
-    LoginButtonView ( text = LoginButtonsTexts.SIGN_ON,
+    LoginButtonView ( text = SIGN_ON_BUTTON,
         paddingStart = LOGIN_BUTTON_PADDING_START_SIGN_ON,
         paddingEnd = LOGIN_BUTTON_PADDING_END_SIGN_ON,
         passwordAgainState = passwordAgainState,
         passwordState = passwordState,
         passwordAgainBorderSize = passwordAgainBorderSize,
         passwordAgainBorderColor = passwordAgainBorderColor,
-        passwordAgainExceptionText = passwordAgainExceptionText
+        passwordAgainExceptionText = passwordAgainExceptionText,
+        viewModel= viewModel
     )
 
     LoginLateButtonView()
@@ -85,21 +90,23 @@ fun FieldsSignInView(viewModel: LoginViewModel, result: String) {
 
     EditTextView (
     keyboardType = KeyboardType.Email,
-    text = EditTextHints.EMAIL,
+    text = EMAIL,
     hasImages = false,
     imeAction = ImeAction.Next,
     topOffset = FIRST_EDIT_TEXT_OFFSET,
     message = emailState,
+    viewModel = viewModel
     )
 
 
     EditTextView (
         keyboardType = KeyboardType.Password,
-        text = EditTextHints.PASSWORD,
+        text = PASSWORD,
         hasImages = true,
         imeAction = ImeAction.Done,
         topOffset = FIRST_EDIT_TEXT_OFFSET + OFFSET_BETWEEN_EDIT_TEXTS,
         message = passwordState,
+        viewModel = viewModel
     )
 
 

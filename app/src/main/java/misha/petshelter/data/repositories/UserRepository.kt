@@ -6,5 +6,5 @@ import javax.inject.Inject
 class UserRepository @Inject constructor (
     private val networkRemote: NetworkRemoteData
 ) {
-    suspend fun getTestResult() = networkRemote.getTestResult()
+    fun getTestResult() = networkRemote.getTestResult()
 }

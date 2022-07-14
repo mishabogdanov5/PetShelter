@@ -41,7 +41,7 @@ fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel
             }
         ) {
             Text(
-                text = SelectorTexts.SIGN_IN,
+                text = SIGN_IN,
                 style = TextStyle(
                     color = BlackTextColor,
                     fontSize = SELECTOR_TEXT_SIZE.sp,
@@ -68,7 +68,7 @@ fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel
         ) {
 
             Text(
-                text = SelectorTexts.SIGN_ON,
+                text = SIGN_ON,
                 style = TextStyle(
                     color = BlackTextColor,
                     fontSize = SELECTOR_TEXT_SIZE.sp,

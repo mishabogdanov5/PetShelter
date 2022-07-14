@@ -7,7 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import misha.petshelter.data.network.retrofit.RetrofitService
 import misha.petshelter.data.remote.NetworkRemoteData
 import misha.petshelter.data.repositories.UserRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -15,14 +18,26 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    //"https://petsproject.issart.com/api/1.0.0/"
     @Provides
-    fun provideBaseUrl(): String = "https://petsproject.issart.com/api/1.0.0/"
+    fun provideBaseUrl(): String = "https://my-json-server.typicode.com/"
+
+    @Provides
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()
+        .also { it.level = HttpLoggingInterceptor.Level.BODY }
+
+    @Provides
+    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
+        .build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
+    fun provideRetrofit(baseUrl: String, client: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
 
     @Singleton

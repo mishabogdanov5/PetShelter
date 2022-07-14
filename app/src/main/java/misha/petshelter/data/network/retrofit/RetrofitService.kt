@@ -1,12 +1,14 @@
 package misha.petshelter.data.network.retrofit
 
+import io.reactivex.rxjava3.core.Single
 import misha.petshelter.models.TestModel
-import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Headers
 
 
 interface RetrofitService {
-
-    @GET("tech/healthcheck")
-    suspend fun getTestResult(): Response<TestModel>
+ //"tech/healthcheck"
+    @GET("typicode/demo/posts/1")
+    @Headers("Content-Type: application/json")
+    fun getTestResult(): Single<TestModel>
 }
