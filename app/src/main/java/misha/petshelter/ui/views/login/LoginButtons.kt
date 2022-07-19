@@ -22,24 +22,72 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import misha.petshelter.R
 import misha.petshelter.ui.theme.*
+import misha.petshelter.view_models.LoginViewModel
 import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
 fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
                      passwordAgainState: MutableState<String> = mutableStateOf(""),
                      passwordState: MutableState<String> = mutableStateOf(""),
+                     emailState: MutableState<String> = mutableStateOf(""),
+                     nameState: MutableState<String> = mutableStateOf(""),
+                     passwordBorderSize: MutableState<Float> = mutableStateOf(0f),
+                     passwordBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                     passwordExceptionText: MutableState<String> = mutableStateOf(""),
+                     nameBorderSize: MutableState<Float> = mutableStateOf(0f),
+                     nameBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                     nameExceptionText: MutableState<String> = mutableStateOf(""),
+                     emailBorderSize: MutableState<Float> = mutableStateOf(0f),
+                     emailBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                     emailExceptionText: MutableState<String> = mutableStateOf(""),
                      passwordAgainBorderSize: MutableState<Float> = mutableStateOf(0f),
                      passwordAgainBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
                      passwordAgainExceptionText: MutableState<String> = mutableStateOf(""),
-                     viewModel: ViewModel? = null)
+                     viewModel: ViewModel,
+                     )
 {
     Button( onClick = {
-        if(viewModel != null) {
-            val model = viewModel as RegisterViewModel
+        var isCorrect = true
 
-            if(model.isPasswordAgainValid(passwordAgainState.value, passwordState.value)) {
+        if(viewModel is RegisterViewModel) {
+            if(viewModel.isNameValid(nameState.value)) {
+                nameBorderSize.value = 0f
+                nameBorderColor.value = Color.Transparent
+                nameExceptionText.value = ""
+            } else {
+                nameBorderSize.value = EXCEPTION_BORDER_SIZE
+                nameBorderColor.value = LoginExceptionColor
+                nameExceptionText.value = NAME_EXCEPTION
+                isCorrect = false
+            }
+
+            if(viewModel.isEmailValid(emailState.value)) {
+                emailBorderSize.value = 0f
+                emailBorderColor.value = Color.Transparent
+                emailExceptionText.value = ""
+            } else {
+                emailBorderSize.value = EXCEPTION_BORDER_SIZE
+                emailBorderColor.value = LoginExceptionColor
+                emailExceptionText.value = EMAIL_EXCEPTION
+                isCorrect = false
+            }
+
+            if(viewModel.isPasswordValid(passwordState.value)) {
+                passwordBorderSize.value = 0f
+                passwordBorderColor.value = Color.Transparent
+                passwordExceptionText.value = ""
+            } else {
+                passwordBorderSize.value = EXCEPTION_BORDER_SIZE
+                passwordBorderColor.value = LoginExceptionColor
+                passwordExceptionText.value = PASSWORD_EXCEPTION
+                isCorrect = false
+            }
+
+            if(viewModel.isPasswordAgainValid(passwordAgainState.value, passwordState.value)) {
                 passwordAgainBorderSize.value = 0f
                 passwordAgainBorderColor.value = Color.Transparent
                 passwordAgainExceptionText.value = ""
@@ -47,8 +95,52 @@ fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
                 passwordAgainBorderSize.value = EXCEPTION_BORDER_SIZE
                 passwordAgainBorderColor.value = LoginExceptionColor
                 passwordAgainExceptionText.value = PASSWORD_AGAIN_EXCEPTION
+                isCorrect = false
             }
-        }
+
+            if(isCorrect) {
+                //POST request
+            }
+
+        } else if(viewModel is LoginViewModel) {
+
+            if(viewModel.isEmailValid(emailState.value)) {
+                emailBorderSize.value = 0f
+                emailBorderColor.value = Color.Transparent
+                emailExceptionText.value = ""
+            } else {
+                emailBorderSize.value = EXCEPTION_BORDER_SIZE
+                emailBorderColor.value = LoginExceptionColor
+                emailExceptionText.value = EMAIL_EXCEPTION
+                isCorrect = false
+            }
+
+            if(viewModel.isPasswordValid(passwordState.value)) {
+                passwordBorderSize.value = 0f
+                passwordBorderColor.value = Color.Transparent
+                passwordExceptionText.value = ""
+            } else {
+                passwordBorderSize.value = EXCEPTION_BORDER_SIZE
+                passwordBorderColor.value = LoginExceptionColor
+                passwordExceptionText.value = PASSWORD_EXCEPTION
+                isCorrect = false
+            }
+
+            if(isCorrect) {
+                viewModel.tryLogin(email = emailState.value, password = passwordState.value)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            emailState.value = it.accessToken
+                            passwordState.value = it.refreshToken
+                        },
+                        {
+                            emailState.value = it.message!!
+                        }
+                    )
+                }
+            }
 
        },
 

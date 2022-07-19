@@ -34,11 +34,9 @@ import misha.petshelter.view_models.RegisterViewModel
 fun EditTextView(keyboardType: KeyboardType, text: String,
                  hasImages: Boolean, imeAction: ImeAction, topOffset: Float,
                  message: MutableState<String> = mutableStateOf(""),
-                 isLogin: Boolean = true,
-                 passwordAgainBorderSize: MutableState<Float> = mutableStateOf(0f),
-                 passwordAgainBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
-                 passwordAgainExceptionText: MutableState<String> = mutableStateOf(""),
-                 viewModel: ViewModel
+                 borderSize: MutableState<Float> = mutableStateOf(0f),
+                 borderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                 exceptionText: MutableState<String> = mutableStateOf(""),
                     )
 {
 
@@ -46,7 +44,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
     val keyboardFocus = LocalFocusManager.current
 
-    val borderSizeState = remember { mutableStateOf(0f) }
+    /*val borderSizeState = remember { mutableStateOf(0f) }
     val borderColorState = remember { mutableStateOf(Color.Transparent) }
     val exceptionTextState = remember { mutableStateOf("") }
 
@@ -55,7 +53,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
     val isNameValid = remember { mutableStateOf(false) }
     val isEmailValidRegister = remember { mutableStateOf(false) }
-    val isPasswordValidRegister = remember { mutableStateOf(false) }
+    val isPasswordValidRegister = remember { mutableStateOf(false) }*/
 
     TextField(
         value = message.value,
@@ -63,7 +61,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
         onValueChange = {
             message.value = it
 
-            var model: ViewModel
+            /*var model: ViewModel
 
             if(isLogin) {
                 model = viewModel as LoginViewModel
@@ -151,7 +149,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
                     else -> ""
                 }
-            }
+            }*/
 
         },
 
@@ -165,13 +163,10 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             .fillMaxWidth()
             .height(EDIT_TEXT_HEIGHT.dp)
             .border(
-                width = if(text != PASSWORD_AGAIN) borderSizeState.value.dp
-            else passwordAgainBorderSize.value.dp,
-
-                color = if(text != PASSWORD_AGAIN) borderColorState.value
-                else passwordAgainBorderColor.value,
-
+                width = borderSize.value.dp,
+                color = borderColor.value,
                 shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp))
+
             .background(Color.Transparent)
             .shadow(elevation = 10.dp, clip = true),
 
@@ -237,8 +232,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
         ),
     )
 
-    Text( if(text != PASSWORD_AGAIN)exceptionTextState.value
-        else passwordAgainExceptionText.value,
+    Text( text = exceptionText.value,
 
         style = TextStyle (
             color = LoginExceptionColor,

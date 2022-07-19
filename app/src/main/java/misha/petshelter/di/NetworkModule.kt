@@ -20,7 +20,7 @@ object NetworkModule {
 
     //"https://petsproject.issart.com/api/1.0.0/"
     @Provides
-    fun provideBaseUrl(): String = "https://my-json-server.typicode.com/"
+    fun provideBaseUrl(): String = "https://petsproject.issart.com/api/1.0.0/"
 
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()

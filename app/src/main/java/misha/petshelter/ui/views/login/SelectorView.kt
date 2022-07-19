@@ -21,7 +21,7 @@ import misha.petshelter.view_models.LoginViewModel
 import misha.petshelter.view_models.RegisterViewModel
 
 @Composable
-fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel, result: String) {
+fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel) {
     val isActive = remember { mutableStateOf(true) }
 
     Row(
@@ -88,7 +88,7 @@ fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel
         }
     }
 
-    if (isActive.value) FieldsSignInView(viewModel, result)
+    if (isActive.value) FieldsSignInView(viewModel)
     else FieldsSignOnView(registerViewModel)
 
 }
