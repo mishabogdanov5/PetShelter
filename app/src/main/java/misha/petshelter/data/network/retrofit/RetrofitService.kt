@@ -8,10 +8,6 @@ import retrofit2.http.POST
 
 
 interface RetrofitService {
- //"tech/healthcheck"
-    /*@GET("typicode/demo/posts/1")
-    @Headers("Content-Type: application/json")
-    fun getTestResult(): Single<TestModel>*/
 
     @POST("login/email")
     fun loginUser(@Body info: LoginInfo) : Single<LoginResponse>

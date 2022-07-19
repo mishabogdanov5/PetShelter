@@ -18,7 +18,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    //"https://petsproject.issart.com/api/1.0.0/"
     @Provides
     fun provideBaseUrl(): String = "https://petsproject.issart.com/api/1.0.0/"
 
