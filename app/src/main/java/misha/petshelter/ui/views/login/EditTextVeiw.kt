@@ -8,9 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -18,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,36 +26,49 @@ import androidx.compose.ui.unit.sp
 import misha.petshelter.R
 import misha.petshelter.ui.theme.*
 
-
 @Composable
 fun EditTextView(keyboardType: KeyboardType, text: String,
-                 hasImages: Boolean, imeAction: ImeAction, topOffset: Float) {
+                 hasImages: Boolean, imeAction: ImeAction, topOffset: Float,
+                 message: MutableState<String> = mutableStateOf(""),
+                 borderSize: MutableState<Float> = mutableStateOf(0f),
+                 borderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                 exceptionText: MutableState<String> = mutableStateOf(""),
+                    )
+{
 
-    val message = remember {mutableStateOf("")}
-
-    val transformation = remember{mutableStateOf(PasswordVisualTransformation() as VisualTransformation)}
+    val transformation = remember{ mutableStateOf(PasswordVisualTransformation() as VisualTransformation) }
 
     val keyboardFocus = LocalFocusManager.current
 
+
     TextField(
+
         value = message.value,
-        onValueChange = { message.value = it },
+
+        onValueChange = {
+            message.value = it
+        },
 
         shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp),
 
-        singleLine = hasImages,
+        singleLine = true,
 
         modifier = Modifier
-            .padding(18.dp)
+            .padding(top = 8.dp, start = 18.dp, end = 18.dp, bottom = 10.dp)
             .offset(y = topOffset.dp)
             .fillMaxWidth()
             .height(EDIT_TEXT_HEIGHT.dp)
-            .border(width = 0.dp, color = Color.Transparent)
+            .border(
+                width = borderSize.value.dp,
+                color = borderColor.value,
+                shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp)
+            )
+
             .background(Color.Transparent)
             .shadow(elevation = 10.dp, clip = true),
 
         placeholder = {
-            Text(
+            Text (
                 text = text,
                 style = TextStyle(
                     color = HintColor,
@@ -115,5 +127,17 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
                 keyboardFocus.clearFocus()
             }
         ),
+    )
+
+    Text( text = exceptionText.value,
+
+        style = TextStyle (
+            color = LoginExceptionColor,
+            fontSize = LOGIN_EXCEPTION_TEXT_SIZE.sp,
+            fontFamily = Mulish,
+            fontWeight = FontWeight.Normal
+        ),
+        modifier = Modifier.padding(start = EXCEPTION_TEXT_PADDING_START.dp,
+            top = EXCEPTION_TEXT_PADDING_TOP.dp)
     )
 } // что то по типу нужного!

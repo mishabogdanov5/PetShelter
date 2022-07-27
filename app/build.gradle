@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "misha.petshelter"
-        minSdk 21
+        minSdk 22
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -46,17 +47,58 @@ android {
         }
     }
 }
+def lifecycle_version = "2.5.0"
+def hilt_version = "2.38.1"
+
+apply plugin: 'kotlin-kapt'
 
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
+
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.activity:activity-compose:1.4.0'
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    // Saved state module for ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    //compose LiveData
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-beta07'
+    //navigation
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha01"
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.10.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    //hilt
+
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    //okHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.1.0'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    //RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

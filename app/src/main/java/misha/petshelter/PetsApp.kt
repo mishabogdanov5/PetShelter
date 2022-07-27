@@ -1,9 +1,7 @@
 package misha.petshelter
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class PetsApp: Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-}
+@HiltAndroidApp
+class PetsApp: Application()
