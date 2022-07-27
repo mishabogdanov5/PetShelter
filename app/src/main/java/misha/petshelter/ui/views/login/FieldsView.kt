@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import misha.petshelter.ui.theme.*
-import misha.petshelter.view_models.LoginViewModel
-import misha.petshelter.view_models.RegisterViewModel
+import misha.petshelter.viewModels.LoginViewModel
+import misha.petshelter.viewModels.RegisterViewModel
 
 @Composable
 fun FieldsSignOnView(viewModel: RegisterViewModel) {
@@ -15,7 +15,7 @@ fun FieldsSignOnView(viewModel: RegisterViewModel) {
     val nameState = viewModel.name.observeAsState() as MutableState<String>
     val emailState = viewModel.email.observeAsState() as MutableState<String>
     val passwordState = viewModel.password.observeAsState() as MutableState<String>
-    val passwordAgainState = viewModel.passwordAgain.observeAsState() as MutableState<String>
+    val passwordAgainState = remember { mutableStateOf("") }
 
     val nameBorderSize = remember { mutableStateOf(0f) }
     val nameBorderColor = remember { mutableStateOf(Color.Transparent) }

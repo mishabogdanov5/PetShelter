@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,12 +23,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import misha.petshelter.R
+import misha.petshelter.models.AppDestination
 import misha.petshelter.ui.theme.*
-import misha.petshelter.view_models.LoginViewModel
-import misha.petshelter.view_models.RegisterViewModel
+import misha.petshelter.viewModels.LoginViewModel
+import misha.petshelter.viewModels.RegisterViewModel
 
 @Composable
 fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
@@ -50,10 +50,30 @@ fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
                      viewModel: ViewModel,
                      )
 {
+
+    val errorMessage = when(viewModel) {
+        is LoginViewModel -> viewModel.errorMessage.observeAsState() as MutableState<String?>
+        is RegisterViewModel -> viewModel.errorMessage.observeAsState() as MutableState<String?>
+        else -> remember { mutableStateOf("") }
+    }
+
+    Text(text = errorMessage.value!!,
+        style = TextStyle (
+            color = LoginExceptionColor,
+            fontSize = 18.sp,
+            fontFamily = Mulish,
+            fontWeight = FontWeight.Normal),
+        modifier = Modifier.padding(
+            top = 12.dp,
+            start = (LOGIN_BUTTON_PADDING_START_SIGN_IN + 30).dp,
+            bottom = 10.dp
+    ))
+
     Button( onClick = {
         var isCorrect = true
 
         if(viewModel is RegisterViewModel) {
+
             if(viewModel.isNameValid(nameState.value)) {
                 nameBorderSize.value = 0f
                 nameBorderColor.value = Color.Transparent
@@ -99,7 +119,11 @@ fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
             }
 
             if(isCorrect) {
-                //POST request
+                viewModel.name.value = nameState.value
+                viewModel.password.value = passwordState.value
+                viewModel.email.value = emailState.value
+
+                viewModel.tryRegister()
             }
 
         } else if(viewModel is LoginViewModel) {
@@ -127,22 +151,15 @@ fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,
             }
 
             if(isCorrect) {
-                viewModel.tryLogin(email = emailState.value, password = passwordState.value)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        {
-                            emailState.value = it.accessToken
-                            passwordState.value = it.refreshToken
-                        },
-                        {
-                            emailState.value = it.message!!
-                        }
-                    )
-                }
+                viewModel.email.value = emailState.value
+                viewModel.password.value = passwordState.value
+
+                viewModel.tryLogin()
             }
 
-       },
+        }
+
+    },
 
         shape = RoundedCornerShape(LOGIN_BUTTON_SHAPE.dp),
         modifier = Modifier
@@ -230,6 +247,7 @@ fun ForgotPasswordButtonView() {
 
     val decoration = remember { mutableStateOf(TextDecoration.None) }
 
+
     Text(text = FORGOT_PASSWORD,
         style = TextStyle (
             color = BlackTextColor,
@@ -239,13 +257,15 @@ fun ForgotPasswordButtonView() {
             textDecoration = decoration.value
         ),
 
-        modifier = Modifier.padding (
-            top = FORGOT_PASSWORD_BUTTON_PADDING_TOP.dp,
-            bottom = FORGOT_PASSWORD_BUTTON_PADDING_BOTTOM.dp,
-            start = FORGOT_PASSWORD_BUTTON_PADDING_START.dp,
-            end = FORGOT_PASSWORD_BUTTON_PADDING_END.dp
-        ).clickable {
-            decoration.value = TextDecoration.Underline
-        }
+        modifier = Modifier
+            .padding(
+                top = FORGOT_PASSWORD_BUTTON_PADDING_TOP.dp,
+                bottom = FORGOT_PASSWORD_BUTTON_PADDING_BOTTOM.dp,
+                start = FORGOT_PASSWORD_BUTTON_PADDING_START.dp,
+                end = FORGOT_PASSWORD_BUTTON_PADDING_END.dp
+            )
+            .clickable {
+                decoration.value = TextDecoration.Underline
+            }
     )
 }

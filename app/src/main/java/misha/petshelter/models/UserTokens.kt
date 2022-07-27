@@ -1,6 +1,6 @@
 package misha.petshelter.models
 
-data class LoginResponse(
+data class UserTokens(
     val accessToken: String,
     val refreshToken: String
 )

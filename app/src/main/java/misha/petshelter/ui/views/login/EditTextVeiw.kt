@@ -23,12 +23,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import misha.petshelter.R
 import misha.petshelter.ui.theme.*
-import misha.petshelter.view_models.LoginViewModel
-import misha.petshelter.view_models.RegisterViewModel
-
 
 @Composable
 fun EditTextView(keyboardType: KeyboardType, text: String,
@@ -44,113 +40,13 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
     val keyboardFocus = LocalFocusManager.current
 
-    /*val borderSizeState = remember { mutableStateOf(0f) }
-    val borderColorState = remember { mutableStateOf(Color.Transparent) }
-    val exceptionTextState = remember { mutableStateOf("") }
-
-    val isPasswordValid = remember { mutableStateOf(false) }
-    val isEmailValid = remember { mutableStateOf(false) }
-
-    val isNameValid = remember { mutableStateOf(false) }
-    val isEmailValidRegister = remember { mutableStateOf(false) }
-    val isPasswordValidRegister = remember { mutableStateOf(false) }*/
 
     TextField(
+
         value = message.value,
 
         onValueChange = {
             message.value = it
-
-            /*var model: ViewModel
-
-            if(isLogin) {
-                model = viewModel as LoginViewModel
-
-                if(hasImages) isPasswordValid.value = model.isPasswordValid(message.value)
-                else isEmailValid.value = model.isEmailValid(message.value)
-            }
-
-            if(!isLogin) {
-                model = viewModel as RegisterViewModel
-
-                when (text) {
-                    PASSWORD -> isPasswordValidRegister.value =
-                        model.isPasswordValid(message.value)
-
-                    NAME -> isNameValid.value = model.isNameValid(message.value)
-
-                    EMAIL -> isEmailValidRegister.value =
-                        model.isEmailValid(message.value)
-
-                }
-            }
-
-            borderSizeState.value = if(isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) 0f
-                    else EXCEPTION_BORDER_SIZE
-                } else {
-                    if(isEmailValid.value) 0f
-                    else EXCEPTION_BORDER_SIZE
-                }
-            } else {
-                when (text) {
-                    PASSWORD -> if(isPasswordValidRegister.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    NAME -> if(isNameValid.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    EMAIL -> if(isEmailValidRegister.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    else -> 0f
-                }
-            }
-
-            borderColorState.value = if (isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) Color.Transparent
-                    else LoginExceptionColor
-                } else {
-                    if(isEmailValid.value) Color.Transparent
-                    else LoginExceptionColor
-                }
-            } else {
-                when (text) {
-                    PASSWORD -> if(isPasswordValidRegister.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    NAME -> if(isNameValid.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    EMAIL -> if(isEmailValidRegister.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    else -> Color.Transparent
-                }
-            }
-
-            exceptionTextState.value = if(isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) ""
-                    else PASSWORD_EXCEPTION
-                } else {
-                    if(isEmailValid.value) ""
-                    else EMAIL_EXCEPTION
-                }
-            } else {
-                when (text) {
-                    PASSWORD -> if(isPasswordValidRegister.value) ""
-                    else PASSWORD_EXCEPTION
-
-                    NAME -> if(isNameValid.value) ""
-                    else NAME_EXCEPTION
-
-                    EMAIL -> if(isEmailValidRegister.value) ""
-                    else EMAIL_EXCEPTION
-
-                    else -> ""
-                }
-            }*/
-
         },
 
         shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp),
@@ -165,7 +61,8 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             .border(
                 width = borderSize.value.dp,
                 color = borderColor.value,
-                shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp))
+                shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp)
+            )
 
             .background(Color.Transparent)
             .shadow(elevation = 10.dp, clip = true),
@@ -240,6 +137,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             fontFamily = Mulish,
             fontWeight = FontWeight.Normal
         ),
-        modifier = Modifier.padding(start = 22.dp, top = 8.dp)
+        modifier = Modifier.padding(start = EXCEPTION_TEXT_PADDING_START.dp,
+            top = EXCEPTION_TEXT_PADDING_TOP.dp)
     )
 } // что то по типу нужного!
