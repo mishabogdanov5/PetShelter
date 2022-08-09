@@ -16,8 +16,9 @@ import misha.petshelter.ui.theme.AUTH_GRAPH
 import misha.petshelter.ui.theme.MAIN_GRAPH
 import misha.petshelter.ui.views.login.LoginView
 import misha.petshelter.ui.views.main.MainView
-import misha.petshelter.viewModels.LoginViewModel
-import misha.petshelter.viewModels.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
+import misha.petshelter.viewModels.main.MainViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +59,9 @@ class MainActivity : AppCompatActivity() {
                     route = MAIN_GRAPH) {
 
                     composable(route = AppDestination.MainScreen.screenName) {
-                        MainView()
+                        val mainViewModel = hiltViewModel<MainViewModel>()
+
+                        MainView(mainViewModel)
                     }
                 }
             }

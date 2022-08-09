@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.ui.theme.*
-import misha.petshelter.viewModels.LoginViewModel
-import misha.petshelter.viewModels.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
 
 @Composable
 fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel) {

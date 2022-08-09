@@ -24,10 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import misha.petshelter.R
-import misha.petshelter.models.AppDestination
 import misha.petshelter.ui.theme.*
-import misha.petshelter.viewModels.LoginViewModel
-import misha.petshelter.viewModels.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
 
 @Composable
 fun LoginButtonView (text: String, paddingStart: Float, paddingEnd: Float,

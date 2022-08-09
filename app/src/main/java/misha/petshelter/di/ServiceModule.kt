@@ -11,7 +11,6 @@ import misha.petshelter.services.localStorage.UserStorage
 import misha.petshelter.services.navigation.AppNavigation
 import misha.petshelter.services.navigation.AppNavigationImpl
 import misha.petshelter.services.network.retrofit.RetrofitService
-import misha.petshelter.services.network.NetworkRemote
 import misha.petshelter.services.network.okhttp.loginClient
 import misha.petshelter.ui.theme.BASE_URL
 import retrofit2.Retrofit
@@ -35,10 +34,6 @@ object ServiceModule {
     @Singleton
     @Provides
     fun provideRetrofitService(retrofit: Retrofit): RetrofitService = retrofit.create(RetrofitService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideNetworkRemote(retrofitService: RetrofitService): NetworkRemote = NetworkRemote(retrofitService)
 
     @Singleton
     @Provides

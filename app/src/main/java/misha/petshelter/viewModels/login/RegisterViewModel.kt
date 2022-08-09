@@ -1,4 +1,4 @@
-package misha.petshelter.viewModels
+package misha.petshelter.viewModels.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,11 +7,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import misha.petshelter.models.AppDestination
-import misha.petshelter.services.network.NetworkRemote
 import misha.petshelter.models.UserTokens
 import misha.petshelter.models.RegisterInfo
 import misha.petshelter.services.localStorage.UserStorage
 import misha.petshelter.services.navigation.AppNavigation
+import misha.petshelter.services.network.retrofit.RetrofitService
 import misha.petshelter.ui.theme.EMAIL_PATTERN
 import misha.petshelter.ui.theme.SIGN_ON_EXCEPTION
 import java.util.regex.Pattern
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor (
-    private val network: NetworkRemote,
+    private val network: RetrofitService,
     private val storage: UserStorage,
     private val navigation: AppNavigation
 ) : ViewModel() {
@@ -45,8 +45,7 @@ class RegisterViewModel @Inject constructor (
 
     fun isNameValid(name: String): Boolean = name.isNotEmpty()
 
-    fun tryRegister(/*name: String, email: String, password: String, onSuccess: Consumer<UserTokens>,
-                    onError: Consumer<Throwable>*/) = compositeDisposable.add(network
+    fun tryRegister() = compositeDisposable.add(network
             .registerUser(RegisterInfo(name = name.value!!, email = email.value!!,
                 password = password.value!!))
             .subscribeOn(Schedulers.io())

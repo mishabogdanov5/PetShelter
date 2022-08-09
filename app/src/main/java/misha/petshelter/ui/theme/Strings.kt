@@ -35,3 +35,7 @@ const val MAIN_SCREEN = "MainScreen"
 
 const val AUTH_GRAPH = "AuthGraph"
 const val MAIN_GRAPH = "MainGraph"
+
+const val ADVERTS = "Объявления"
+const val CREATE_ADVERT = "Создать объявление"
+const val PROFILE = "Профиль"

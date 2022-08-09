@@ -54,7 +54,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
         singleLine = true,
 
         modifier = Modifier
-            .padding(top = 8.dp, start = 18.dp, end = 18.dp, bottom = 10.dp)
+            .padding(top = 8.dp, start = 18.dp, end = 18.dp, bottom = 5.dp)
             .offset(y = topOffset.dp)
             .fillMaxWidth()
             .height(EDIT_TEXT_HEIGHT.dp)

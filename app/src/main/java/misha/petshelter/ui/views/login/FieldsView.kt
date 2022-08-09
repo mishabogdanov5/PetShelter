@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import misha.petshelter.ui.theme.*
-import misha.petshelter.viewModels.LoginViewModel
-import misha.petshelter.viewModels.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
 
 @Composable
 fun FieldsSignOnView(viewModel: RegisterViewModel) {
