@@ -47,7 +47,7 @@ fun MainBottomBar(screenHeight: Dp, viewModel: MainViewModel) {
 
                 IconButton(
                     onClick = {
-                        viewModel.switchUnionPict()
+                        viewModel.onUnionPictClick()
                         advertFontWeight.value = FontWeight.SemiBold
                     },
                     modifier = Modifier.background(color = Color.Transparent),
@@ -70,7 +70,7 @@ fun MainBottomBar(screenHeight: Dp, viewModel: MainViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 IconButton(
                     onClick = {
-                        viewModel.switchAddPict()
+                        viewModel.onAddPictClick()
                         addFontWeight.value = FontWeight.SemiBold
                     }
                 ){
@@ -93,7 +93,7 @@ fun MainBottomBar(screenHeight: Dp, viewModel: MainViewModel) {
 
                 IconButton(
                     onClick = {
-                        viewModel.switchProfilePict()
+                        viewModel.onProfilePictClick()
                         profileFontWeight.value = FontWeight.SemiBold
                     }
                 ) {
