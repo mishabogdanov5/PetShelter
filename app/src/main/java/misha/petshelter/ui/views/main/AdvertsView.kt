@@ -3,6 +3,7 @@
 package misha.petshelter.ui.views.main
 
 import android.content.Context
+import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,8 +15,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.SemanticsProperties.Text
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
@@ -28,8 +27,9 @@ import misha.petshelter.viewModels.main.MainViewModel
 @Composable
 fun AdvertsView(viewModel: MainViewModel, context: Context) {
 
-    //if(isConnected(context = context)) viewModel.getAllPets()
-    viewModel.getAllPets()
+    if(isConnected(context = context)) viewModel.getAllPets()
+
+   // viewModel.getAllPets()
 
     val pets = viewModel.pets.observeAsState() as MutableState<List<PetInfo>>
 
@@ -50,22 +50,57 @@ fun PetView(pet: PetInfo) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        PetPhoto(pet.imageUrl)
+        PetPhoto(url = pet.imageUrl)
         Text(text = pet.type)
+        //Text(text = pet.imageUrl)
+        println(pet.imageUrl)
     }
 }
 
 @Composable
 fun PetPhoto(url: String) {
 
-    val painter = rememberImagePainter(data = url, builder = {
+//    val painter = rememberImagePainter(data = url, builder = {
+//        crossfade(600)
+//        error(R.drawable.ic_add)
+//    })
+
+
+
+    Image(
+        modifier = Modifier.width(100.dp).height(100.dp),
+        painter = rememberImagePainter(data = url, builder = {
         crossfade(600)
         error(R.drawable.ic_add)
-    })
+    }), contentDescription = null)
 
-    Image(painter = painter, contentDescription = null)
+    //if(painter.state is ImagePainter.State.Loading) CircularProgressIndicator()
 
-    if(painter.state is ImagePainter.State.Loading) CircularProgressIndicator()
+   // if(painter.state is ImagePainter.State.Empty) Text(text = url)
+    
 
-    if(painter.state is ImagePainter.State.Empty) Text(text = "sladasd")
+
+    //print(url)
+}
+
+@Composable
+fun A (viewModel: MainViewModel) {
+
+    viewModel.getAllPets()
+
+
+    val pets = viewModel.pets.observeAsState() as MutableState<List<PetInfo>>
+
+    if(pets.value.isNotEmpty()) {
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            val painter = rememberImagePainter(data = pets.value[0].imageUrl)
+
+            Image(painter = painter, contentDescription = null)
+
+            if(painter.state is ImagePainter.State.Empty) Text(text = pets.value[0].imageUrl)
+        }
+
+    }
+
 }

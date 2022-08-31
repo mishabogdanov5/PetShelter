@@ -26,7 +26,7 @@ fun MainView(viewModel: MainViewModel, context: Context) {
             val screenState = viewModel.screenState.observeAsState() as MutableState<MainScreenStates>
 
             when(screenState.value) {
-                MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel, context = context) //AdView()
+                MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel, context = context)
                 MainScreenStates.CREATE_ADVERTS -> CreateAdvertsView()
                 else -> ProfileView()
             }
