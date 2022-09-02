@@ -15,6 +15,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
@@ -25,9 +26,9 @@ import misha.petshelter.services.network.isConnected
 import misha.petshelter.viewModels.main.MainViewModel
 
 @Composable
-fun AdvertsView(viewModel: MainViewModel, context: Context) {
+fun AdvertsView(viewModel: MainViewModel) {
 
-    if(isConnected(context = context)) viewModel.getAllPets()
+    if(isConnected(LocalContext.current)) viewModel.getAllPets()
 
    // viewModel.getAllPets()
 
@@ -52,31 +53,23 @@ fun PetView(pet: PetInfo) {
     ) {
         PetPhoto(url = pet.imageUrl)
         Text(text = pet.type)
-        //Text(text = pet.imageUrl)
-        println(pet.imageUrl)
     }
 }
 
 @Composable
 fun PetPhoto(url: String) {
 
-//    val painter = rememberImagePainter(data = url, builder = {
-//        crossfade(600)
-//        error(R.drawable.ic_add)
-//    })
-
-
-
-    Image(
-        modifier = Modifier.width(100.dp).height(100.dp),
-        painter = rememberImagePainter(data = url, builder = {
-        crossfade(600)
+   val painter = rememberImagePainter(data = url, builder = {
+       crossfade(600)
         error(R.drawable.ic_add)
-    }), contentDescription = null)
+    })
 
-    //if(painter.state is ImagePainter.State.Loading) CircularProgressIndicator()
+    Image(painter = painter, contentDescription = null,
+        modifier = Modifier.width(100.dp).height(100.dp))
 
-   // if(painter.state is ImagePainter.State.Empty) Text(text = url)
+    if(painter.state is ImagePainter.State.Loading) CircularProgressIndicator()
+
+   //if(painter.state is ImagePainter.State.Empty) Text(text = url)
     
 
 

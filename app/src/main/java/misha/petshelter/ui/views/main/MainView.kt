@@ -14,7 +14,7 @@ import misha.petshelter.models.MainScreenStates
 import misha.petshelter.viewModels.main.MainViewModel
 
 @Composable
-fun MainView(viewModel: MainViewModel, context: Context) {
+fun MainView(viewModel: MainViewModel) {
     BoxWithConstraints(modifier = Modifier
         .fillMaxSize()
         .background(color = Color.White)) {
@@ -26,7 +26,7 @@ fun MainView(viewModel: MainViewModel, context: Context) {
             val screenState = viewModel.screenState.observeAsState() as MutableState<MainScreenStates>
 
             when(screenState.value) {
-                MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel, context = context)
+                //MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel)
                 MainScreenStates.CREATE_ADVERTS -> CreateAdvertsView()
                 else -> ProfileView()
             }

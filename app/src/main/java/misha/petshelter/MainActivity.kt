@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                     composable(route = AppDestination.MainScreen.screenName) {
                         val mainViewModel = hiltViewModel<MainViewModel>()
 
-                        MainView(mainViewModel, applicationContext)
+                        MainView(mainViewModel)
                     }
                 }
             }
