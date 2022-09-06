@@ -1,6 +1,6 @@
 package misha.petshelter.ui.views.main
 
-import android.content.Context
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -26,9 +26,9 @@ fun MainView(viewModel: MainViewModel) {
             val screenState = viewModel.screenState.observeAsState() as MutableState<MainScreenStates>
 
             when(screenState.value) {
-                //MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel)
+                MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel)
                 MainScreenStates.CREATE_ADVERTS -> CreateAdvertsView()
-                else -> ProfileView()
+                else -> ProfileView("Имя")
             }
 
             MainBottomBar(screenHeight = maxHeight, viewModel =  viewModel)

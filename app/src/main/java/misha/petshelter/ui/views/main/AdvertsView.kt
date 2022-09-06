@@ -2,12 +2,14 @@
 
 package misha.petshelter.ui.views.main
 
-import android.content.Context
-import android.media.Image
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,16 +17,24 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import misha.petshelter.R
 import misha.petshelter.models.PetInfo
 import misha.petshelter.services.network.isConnected
+import misha.petshelter.ui.theme.*
 import misha.petshelter.viewModels.main.MainViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AdvertsView(viewModel: MainViewModel) {
 
@@ -34,66 +44,115 @@ fun AdvertsView(viewModel: MainViewModel) {
 
     val pets = viewModel.pets.observeAsState() as MutableState<List<PetInfo>>
 
-    LazyColumn {
+    Box(modifier = Modifier.padding(top = 20.dp, bottom = 100.dp)) {
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(2),
 
-        items(pets.value) {
-            PetView(pet = it)
-        }
+
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 8.dp,
+                bottom = 8.dp
+            ),
+
+            content =  {
+                items(pets.value.size) { index ->
+                    PetView(pet = pets.value[index])
+                }
+            }
+        )
     }
 }
 
 @Composable
 fun PetView(pet: PetInfo) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+    Card (
+        modifier = Modifier.height(280.dp),
+        backgroundColor = Color.White,
+        elevation = 8.dp,
+        shape = RoundedCornerShape(8.dp)
     ) {
-        PetPhoto(url = pet.imageUrl)
-        Text(text = pet.type)
+        Column {
+            PetPhoto(url = pet.imageUrl)
+            PetDescription(pet = pet)
+        }
+
     }
 }
 
 @Composable
 fun PetPhoto(url: String) {
 
-   val painter = rememberImagePainter(data = url, builder = {
-       crossfade(600)
-        error(R.drawable.ic_add)
+    val painter = rememberImagePainter(data = url, builder = {
+        crossfade(600)
     })
 
-    Image(painter = painter, contentDescription = null,
-        modifier = Modifier.width(100.dp).height(100.dp))
+    Image(
+        painter = painter, contentDescription = null,
+        modifier = Modifier
+            .width(168.dp)
+            .height(168.dp)
+            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+            .background(color = ImageBackgroundColor)
+    )
 
-    if(painter.state is ImagePainter.State.Loading) CircularProgressIndicator()
+    if (painter.state is ImagePainter.State.Loading) CircularProgressIndicator(color = PrimaryColor)
 
-   //if(painter.state is ImagePainter.State.Empty) Text(text = url)
-    
-
-
-    //print(url)
 }
 
 @Composable
-fun A (viewModel: MainViewModel) {
+fun PetDescription(pet: PetInfo) {
+    Column(modifier = Modifier
+        .padding(
+        top = 8.dp,
+        start = 10.dp,
+        end = 10.dp,
+        bottom = 14.dp),
+    ) {
+        Text (
+            text = pet.title, 
+            
+            style = TextStyle(
+                color = BlackTextColor,
+                fontSize = 16.sp,
+                fontFamily = Mulish
+            ),
 
-    viewModel.getAllPets()
+            modifier = Modifier.padding(top = 4.dp)
+        )
+        
+        Text(
+            text = pet.description,
 
+            style = TextStyle(
+                color = BlackTextColor,
+                fontSize = 12.sp,
+                fontFamily = Mulish
+            ),
 
-    val pets = viewModel.pets.observeAsState() as MutableState<List<PetInfo>>
+            modifier = Modifier.padding(top = 4.dp)
+        )
 
-    if(pets.value.isNotEmpty()) {
+        Row(modifier = Modifier.padding(top = 4.dp, start = 3.5.dp)) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_location),
+                contentDescription = null
+            )
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            val painter = rememberImagePainter(data = pets.value[0].imageUrl)
-
-            Image(painter = painter, contentDescription = null)
-
-            if(painter.state is ImagePainter.State.Empty) Text(text = pets.value[0].imageUrl)
+            Text(
+                text = pet.position.latitude.toString() + pet.position.longitude.toString(),
+                style = TextStyle(
+                    color = GrayTextColor,
+                    fontSize = 12.sp,
+                    fontFamily = Mulish
+                )
+            )
         }
 
     }
+}
+
+@Composable
+fun EmptyPetsList() {
 
 }

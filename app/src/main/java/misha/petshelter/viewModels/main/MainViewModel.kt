@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val screenState = MutableLiveData(MainScreenStates.ADVERTS)
+    val screenState = MutableLiveData(MainScreenStates.PROFILE)
 
     val unionPictId = MutableLiveData(R.drawable.union_big)
     val addPictId = MutableLiveData(R.drawable.ic_add_outline)
