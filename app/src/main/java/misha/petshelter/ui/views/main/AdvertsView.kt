@@ -44,35 +44,42 @@ fun AdvertsView(viewModel: MainViewModel) {
 
     val pets = viewModel.pets.observeAsState() as MutableState<List<PetInfo>>
 
-    Box(modifier = Modifier.padding(top = 20.dp, bottom = 100.dp)) {
-        LazyVerticalGrid(
-            cells = GridCells.Fixed(2),
+    LazyVerticalGrid(
+
+        modifier = Modifier.padding( top = 22.dp).fillMaxHeight(0.886f),
+
+        cells = GridCells.Fixed(2),
 
 
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                end = 8.dp,
-                bottom = 8.dp
-            ),
+        contentPadding = PaddingValues(
+            start = 4.dp,
+            end = 4.dp,
+            top = 8.dp,
 
-            content =  {
-                items(pets.value.size) { index ->
-                    PetView(pet = pets.value[index])
-                }
+        ),
+
+        content =  {
+            items(pets.value.size) { index ->
+                PetView(pet = pets.value[index])
             }
-        )
-    }
+        }
+    )
 }
+
 
 @Composable
 fun PetView(pet: PetInfo) {
     Card (
-        modifier = Modifier.height(280.dp),
         backgroundColor = Color.White,
         elevation = 8.dp,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp)
+            .height(280.dp)
     ) {
-        Column {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             PetPhoto(url = pet.imageUrl)
             PetDescription(pet = pet)
         }

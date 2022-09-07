@@ -21,17 +21,33 @@ fun MainView(viewModel: MainViewModel) {
 
         val maxHeight = maxHeight
 
-        Column {
 
-            val screenState = viewModel.screenState.observeAsState() as MutableState<MainScreenStates>
 
-            when(screenState.value) {
-                MainScreenStates.ADVERTS -> AdvertsView(viewModel = viewModel)
-                MainScreenStates.CREATE_ADVERTS -> CreateAdvertsView()
-                else -> ProfileView("Имя")
+        val screenState = viewModel.screenState.observeAsState() as MutableState<MainScreenStates>
+
+        when(screenState.value) {
+
+            MainScreenStates.ADVERTS ->
+
+                Column(modifier = Modifier.fillMaxSize()) {
+                    AdvertsView(viewModel = viewModel)
+                    MainBottomBar(screenHeight = maxHeight, viewModel =  viewModel)
+                }
+
+
+            MainScreenStates.CREATE_ADVERTS ->
+            Column(modifier = Modifier.fillMaxSize()) {
+                CreateAdvertsView()
+                MainBottomBar(screenHeight = maxHeight, viewModel =  viewModel)
             }
 
-            MainBottomBar(screenHeight = maxHeight, viewModel =  viewModel)
+
+            else ->
+
+            Column(modifier = Modifier.fillMaxSize()) {
+                ProfileView(name = "Имя")
+                MainBottomBar(screenHeight = maxHeight, viewModel = viewModel)
+            }
         }
 
 

@@ -46,7 +46,7 @@ fun ProfileView(name: String) {
     val currentContext = LocalContext.current
 
     val bitmap = remember {
-        mutableStateOf<Bitmap?>(null)
+        mutableStateOf(getBitmapFromVectorDrawable(currentContext, R.drawable.ic_profile_default_photo))
     }
 
     
@@ -58,7 +58,7 @@ fun ProfileView(name: String) {
     Column {
 
         TopAppBar(backgroundColor = PrimaryColor,
-            modifier = Modifier.padding(bottom = 48.dp))
+            modifier = Modifier.padding(bottom = 30.dp))
         {
 
             Image (imageVector = Icons.Default.Create,
@@ -70,19 +70,20 @@ fun ProfileView(name: String) {
 
 
         Image(
-            bitmap = getBitmapFromVectorDrawable(currentContext, R.drawable.ic_profile_default_photo)
-                .asImageBitmap(),
+            bitmap = bitmap.value.asImageBitmap(),
 
             contentDescription = null,
 
             modifier = Modifier
+                .padding( start = 96.dp, bottom = 40.dp)
                 .height(PROFILE_IMAGE_SIZE.dp)
                 .width(PROFILE_IMAGE_SIZE.dp)
                 .clip(RoundedCornerShape(PROFILE_IMAGE_SIZE.dp))
                 .clickable {
                     launcher.launch("image/*")
-                }
-                .padding(start = 96.dp, end = 96.dp, bottom = 40.dp),
+                },
+
+
 
             contentScale = ContentScale.Crop,
         )
