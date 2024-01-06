@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import misha.petshelter.ui.views.AppLogoView
-import misha.petshelter.view_models.LoginViewModel
-import misha.petshelter.view_models.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
 
 @Composable
 fun LoginView(loginViewModel: LoginViewModel, registerViewModel: RegisterViewModel) {

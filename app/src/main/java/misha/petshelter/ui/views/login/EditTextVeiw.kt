@@ -24,19 +24,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.R
-import misha.petshelter.domain.LoginValidation
-import misha.petshelter.domain.RegisterValidation
 import misha.petshelter.ui.theme.*
-
 
 @Composable
 fun EditTextView(keyboardType: KeyboardType, text: String,
                  hasImages: Boolean, imeAction: ImeAction, topOffset: Float,
                  message: MutableState<String> = mutableStateOf(""),
-                 isLogin: Boolean = true,
-                 passwordAgainBorderSize: MutableState<Float> = mutableStateOf(0f),
-                 passwordAgainBorderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
-                 passwordAgainExceptionText: MutableState<String> = mutableStateOf("")
+                 borderSize: MutableState<Float> = mutableStateOf(0f),
+                 borderColor: MutableState<Color> = mutableStateOf(Color.Transparent),
+                 exceptionText: MutableState<String> = mutableStateOf(""),
                     )
 {
 
@@ -44,107 +40,13 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
 
     val keyboardFocus = LocalFocusManager.current
 
-    val borderSizeState = remember { mutableStateOf(0f) }
-    val borderColorState = remember { mutableStateOf(Color.Transparent) }
-    val exceptionTextState = remember { mutableStateOf("") }
-
-    val isPasswordValid = remember { mutableStateOf(false) }
-    val isEmailValid = remember { mutableStateOf(false) }
-
-    val isNameValid = remember { mutableStateOf(false) }
-    val isEmailValidRegister = remember { mutableStateOf(false) }
-    val isPasswordValidRegister = remember { mutableStateOf(false) }
 
     TextField(
+
         value = message.value,
 
         onValueChange = {
             message.value = it
-            if(isLogin) {
-                if(hasImages) isPasswordValid.value = LoginValidation().isPasswordValid(message.value)
-                else isEmailValid.value = LoginValidation().isEmailValid(message.value)
-            }
-
-            if(!isLogin) {
-
-                when (text) {
-                    EditTextHints.PASSWORD -> isPasswordValidRegister.value = RegisterValidation()
-                        .isPasswordValid(message.value)
-
-                    EditTextHints.NAME -> isNameValid.value = RegisterValidation().isNameValid(message.value)
-
-                    EditTextHints.EMAIL -> isEmailValidRegister.value = RegisterValidation()
-                        .isEmailValid(message.value)
-
-                }
-            }
-
-            borderSizeState.value = if(isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) 0f
-                    else EXCEPTION_BORDER_SIZE
-                } else {
-                    if(isEmailValid.value) 0f
-                    else EXCEPTION_BORDER_SIZE
-                }
-            } else {
-                when (text) {
-                    EditTextHints.PASSWORD -> if(isPasswordValidRegister.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    EditTextHints.NAME -> if(isNameValid.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    EditTextHints.EMAIL -> if(isEmailValidRegister.value) 0f else EXCEPTION_BORDER_SIZE
-
-                    else -> 0f
-                }
-            }
-
-            borderColorState.value = if (isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) Color.Transparent
-                    else LoginExceptionColor
-                } else {
-                    if(isEmailValid.value) Color.Transparent
-                    else LoginExceptionColor
-                }
-            } else {
-                when (text) {
-                    EditTextHints.PASSWORD -> if(isPasswordValidRegister.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    EditTextHints.NAME -> if(isNameValid.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    EditTextHints.EMAIL -> if(isEmailValidRegister.value) Color.Transparent
-                    else LoginExceptionColor
-
-                    else -> Color.Transparent
-                }
-            }
-
-            exceptionTextState.value = if(isLogin) {
-                if(hasImages) {
-                    if(isPasswordValid.value) ""
-                    else LoginExceptions.PASSWORD_EXCEPTION
-                } else {
-                    if(isEmailValid.value) ""
-                    else LoginExceptions.EMAIL_EXCEPTION
-                }
-            } else {
-                when (text) {
-                    EditTextHints.PASSWORD -> if(isPasswordValidRegister.value) ""
-                    else LoginExceptions.PASSWORD_EXCEPTION
-
-                    EditTextHints.NAME -> if(isNameValid.value) ""
-                    else RegisterExceptions.NAME_EXCEPTION
-
-                    EditTextHints.EMAIL -> if(isEmailValidRegister.value) ""
-                    else LoginExceptions.EMAIL_EXCEPTION
-
-                    else -> ""
-                }
-            }
-
         },
 
         shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp),
@@ -152,18 +54,16 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
         singleLine = true,
 
         modifier = Modifier
-            .padding(top = 8.dp, start = 18.dp, end = 18.dp, bottom = 10.dp)
+            .padding(top = 8.dp, start = 18.dp, end = 18.dp, bottom = 5.dp)
             .offset(y = topOffset.dp)
             .fillMaxWidth()
             .height(EDIT_TEXT_HEIGHT.dp)
             .border(
-                width = if(text != EditTextHints.PASSWORD_AGAIN) borderSizeState.value.dp
-            else passwordAgainBorderSize.value.dp,
+                width = borderSize.value.dp,
+                color = borderColor.value,
+                shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp)
+            )
 
-                color = if(text != EditTextHints.PASSWORD_AGAIN) borderColorState.value
-                else passwordAgainBorderColor.value,
-
-                shape = RoundedCornerShape(EDIT_TEXT_SHAPE.dp))
             .background(Color.Transparent)
             .shadow(elevation = 10.dp, clip = true),
 
@@ -229,8 +129,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
         ),
     )
 
-    Text( if(text != EditTextHints.PASSWORD_AGAIN)exceptionTextState.value
-        else passwordAgainExceptionText.value,
+    Text( text = exceptionText.value,
 
         style = TextStyle (
             color = LoginExceptionColor,
@@ -238,6 +137,7 @@ fun EditTextView(keyboardType: KeyboardType, text: String,
             fontFamily = Mulish,
             fontWeight = FontWeight.Normal
         ),
-        modifier = Modifier.padding(start = 22.dp, top = 8.dp)
+        modifier = Modifier.padding(start = EXCEPTION_TEXT_PADDING_START.dp,
+            top = EXCEPTION_TEXT_PADDING_TOP.dp)
     )
 } // что то по типу нужного!

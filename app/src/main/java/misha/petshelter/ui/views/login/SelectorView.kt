@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import misha.petshelter.ui.theme.*
-import misha.petshelter.view_models.LoginViewModel
-import misha.petshelter.view_models.RegisterViewModel
+import misha.petshelter.viewModels.login.LoginViewModel
+import misha.petshelter.viewModels.login.RegisterViewModel
 
 @Composable
 fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel) {
@@ -41,7 +41,7 @@ fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel
             }
         ) {
             Text(
-                text = SelectorTexts.SIGN_IN,
+                text = SIGN_IN,
                 style = TextStyle(
                     color = BlackTextColor,
                     fontSize = SELECTOR_TEXT_SIZE.sp,
@@ -68,7 +68,7 @@ fun SelectorView(viewModel: LoginViewModel, registerViewModel: RegisterViewModel
         ) {
 
             Text(
-                text = SelectorTexts.SIGN_ON,
+                text = SIGN_ON,
                 style = TextStyle(
                     color = BlackTextColor,
                     fontSize = SELECTOR_TEXT_SIZE.sp,
